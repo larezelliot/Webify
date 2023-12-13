@@ -13,7 +13,7 @@ export const getAuthUrl = async () => {
     const params = {
         response_type: 'code',
         client_id: CLIENT_ID,
-        scope: 'user-read-email playlist-modify-public',
+        scope: 'user-read-email playlist-modify-public user-top-read',
         code_challenge_method: 'S256',
         code_challenge: await getCodeChallenge(code_verifier),
         redirect_uri: REDIRECT_URI

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, View, Text, TextInput } from 'react-native';
 import { getAuthUrl, getCode, getToken } from '../utils/Auth_PKCE';
+import { getTop5Tracks } from '../utils/API_Fetcher';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -45,6 +46,20 @@ export function HomeScreen({ navigation }: any) {
             <Button
                 title="Go to Profile"
                 onPress={() => { navigation.navigate('Profile') }}
+            />
+
+            <Button
+                title="Top 5 Tracks"
+                onPress={async () => {
+                    console.log('.');
+                    let tracks = await getTop5Tracks(token);
+                    console.log(tracks);
+                    console.log('.');
+                    for (let index = 0; index < tracks.length; index++) {
+                        const element = tracks[index];
+                        console.log(element.name + '\t' + element.artists[0].name + '\tExplicit ? ' + (element.explicit ?? "FUCK YEAH", "NO (PUSSY)"));
+                    }
+                }}
             />
 
             <TextInput placeholder='Something here?' />
