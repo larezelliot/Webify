@@ -27,13 +27,12 @@ export function HomeScreen({ navigation }: any) {
             <Text>Hello, {name}</Text>
             <Button
                 title="Go to Profile"
-                onPress={
-                    () => {
-                        navigation.navigate('Profile')
-                    }
-                }
+                onPress={() => { navigation.navigate('ProfileScreen') }}
             />
-            <TextInput placeholder='Something here?' />
+            <Button
+                title="Go to Favorite Song"
+                onPress={() => { navigation.navigate('FavoriteSongScreen') }}
+            />
         </View>
     );
 }

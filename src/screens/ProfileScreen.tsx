@@ -13,7 +13,7 @@ export function ProfileScreen({ navigation }: any) {
                 title="Go to Home"
                 onPress={
                     () => {
-                        navigation.navigate('Home')
+                        navigation.navigate('HomeScreen')
                     }
                 }
             />
