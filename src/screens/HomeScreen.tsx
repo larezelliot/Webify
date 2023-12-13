@@ -1,68 +1,39 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Button, View, Text, TextInput } from 'react-native';
-import { getAuthUrl, getCode, getToken } from '../utils/Auth_PKCE';
-import { getTop5Tracks } from '../utils/API_Fetcher';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SpotifyAPIContext } from '../../App';
+import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 
 
 export function HomeScreen({ navigation }: any) {
-    //const [authUrlStrign, setAuthUrl] = React.useState("");   //HACK
-    const [code, setCode] = React.useState("");
-    const [token, setToken] = React.useState("");
+    const spotifyAPI = useContext(SpotifyAPIContext);
 
-    /*
-    getAuthUrl().then((value) => { setAuthUrl(value.toString()); })
-    getCode().then((value) => { setCode(value) });
-    getToken().then((value) => { setToken(value) });*/
+    const [name, setName] = useState<string | undefined>(undefined);
+
+    const fetchData = async () => {
+        try {
+            const fetchedName = (await spotifyAPI?.currentUser.profile())?.display_name;
+
+            setName(fetchedName);
+        } catch (error) { console.error('Error fetching data:', error); }
+    };
+    useEffect(() => { fetchData(); }, []);
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-
             <Text>Home Screen</Text>
-
-            <Text>CODE: {code?.slice(0, 3)}...</Text>
-
-            <Text>TOKEN: {token?.slice(0, 3)}...</Text>
-
-            <Button
-                title="Log In with Spotify"
-
-                onPress={async () => {
-                    window.location.href = (await getAuthUrl()).toString()
-                }}
-
-            />
-
-            <Button
-                title="Refresh Code and Token"
-
-                onPress={async () => {
-                    setCode(await getCode());
-                    setToken(await getToken());
-                }}
-
-            />
-
+            <Text>Hello, {name}</Text>
             <Button
                 title="Go to Profile"
-                onPress={() => { navigation.navigate('Profile') }}
-            />
-
-            <Button
-                title="Top 5 Tracks"
-                onPress={async () => {
-                    console.log('.');
-                    let tracks = await getTop5Tracks(token);
-                    console.log(tracks);
-                    console.log('.');
-                    for (let index = 0; index < tracks.length; index++) {
-                        const element = tracks[index];
-                        console.log(element.name + '\t' + element.artists[0].name + '\tExplicit ? ' + (element.explicit ?? "FUCK YEAH", "NO (PUSSY)"));
+                onPress={
+                    () => {
+                        navigation.navigate('Profile')
                     }
-                }}
+                }
             />
-
             <TextInput placeholder='Something here?' />
-        </View >
+        </View>
     );
 }
