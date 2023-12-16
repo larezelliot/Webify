@@ -9,6 +9,7 @@ import { ProfileScreen } from './src/screens/ProfileScreen';
 import { createContext, useState } from 'react';
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import { FavoriteSongScreen } from './src/screens/FavoriteSong';
+import { TopTenSongsScreen } from './src/screens/TopTenSongsScreen';
 
 export const SpotifyAPIContext = createContext<SpotifyApi | undefined>(undefined);
 const Stack = createNativeStackNavigator();
@@ -46,6 +47,10 @@ export default function App() {
           <Stack.Screen
             name="FavoriteSongScreen"
             component={FavoriteSongScreen}
+            options={{ title: 'Favorite Song' }} />
+        <Stack.Screen
+            name="TopTenSongsScreen"
+            component={TopTenSongsScreen}
             options={{ title: 'Favorite Song' }} />
         </Stack.Navigator>
       </NavigationContainer>
