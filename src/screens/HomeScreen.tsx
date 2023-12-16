@@ -33,6 +33,10 @@ export function HomeScreen({ navigation }: any) {
                 title="Go to Favorite Song"
                 onPress={() => { navigation.navigate('FavoriteSongScreen') }}
             />
+            <Button
+                title="Top 10 Songs"
+                onPress={() => { navigation.navigate('TopTenSongsScreen') }}
+            />
         </View>
     );
 }
